@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-export default class Form extends Component {
-  static propTypes = {
-    handleAddItem: PropTypes.func.isRequired,
-  };
+interface Props {
+  handleAddItem: Function
+};
+
+export default class Form extends Component<Props, {itemValue: string}> {
 
   state = { itemValue: '' };
 
-  handleSubmitAndResetForm = ev => {
+  handleSubmitAndResetForm = (ev: any) => {
     ev.preventDefault();
 
     this.props.handleAddItem(this.state.itemValue);
@@ -22,7 +22,7 @@ export default class Form extends Component {
     });
   };
 
-  handleItemChange = ev =>
+  handleItemChange = (ev: any) =>
     this.setState({
       itemValue: ev.target.value,
     });

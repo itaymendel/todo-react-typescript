@@ -1,37 +1,34 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component, MouseEventHandler } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import Form from '../Form/Form';
 import FormEdit from '../FormEdit/FormEdit';
 import FormItem from '../FormItem/FormItem';
+import Item from '../../types/Item';
 
 import './Content.css';
 
-class Content extends Component {
-  static propTypes = {
-    items: PropTypes.array.isRequired,
-    editingItem: PropTypes.shape({
-      value: PropTypes.string,
-      id: PropTypes.string,
-      completed: PropTypes.bool,
-    }),
-    className: PropTypes.string.isRequired,
-    handleAddItem: PropTypes.func.isRequired,
-    handleCancelEditItem: PropTypes.func.isRequired,
-    handleDeleteItem: PropTypes.func.isRequired,
-    handleEditItem: PropTypes.func.isRequired,
-    handleItemCompletion: PropTypes.func.isRequired,
-    handleSelectEditItem: PropTypes.func.isRequired,
-    handleReorderItem: PropTypes.func.isRequired,
-  };
+interface Props {
+  items: Array<Item>,
+  editingItem: Item,
+  className: string,
+  handleAddItem: Function,
+  handleCancelEditItem: MouseEventHandler,
+  handleDeleteItem: Function,
+  handleEditItem: Function,
+  handleItemCompletion: Function,
+  handleSelectEditItem: Function,
+  handleReorderItem: Function,
+};
+
+class Content extends Component<Props> {
 
   static defaultProps = {
     items: [],
     editingItem: {},
   };
 
-  onDragEnd = result => {
+  onDragEnd = (result: any) => {
     // dropped outside the list
     if (!result.destination) {
       return;

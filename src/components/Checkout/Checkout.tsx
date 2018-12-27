@@ -1,13 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 
-const checkoutPropTypes = {
-  isCompleted: PropTypes.bool.isRequired,
-};
+interface Props {
+  isCompleted: boolean
+}
 
-const Checkout = props => (
+const Checkout: React.StatelessComponent<Props> = (props) => (
   <span>
     {props.isCompleted ? (
       <FontAwesomeIcon icon={faCheckSquare} size="2x" />
@@ -16,7 +15,5 @@ const Checkout = props => (
     )}
   </span>
 );
-
-Checkout.propTypes = checkoutPropTypes;
 
 export default Checkout;

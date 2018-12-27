@@ -1,22 +1,19 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component, MouseEventHandler } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import Item from '../../types/Item';
 
 import './FormEdit.css';
 
-export default class FormEdit extends Component {
-  static propTypes = {
-    item: PropTypes.shape({
-      value: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-      completed: PropTypes.bool.isRequired,
-    }),
-    handleEditItem: PropTypes.func.isRequired,
-    handleCancelEditItem: PropTypes.func.isRequired,
-  };
+interface Props {
+  item: Item,
+  handleEditItem: Function,
+  handleCancelEditItem: MouseEventHandler
+}
 
-  constructor(props) {
+export default class FormEdit extends Component<Props, {itemValue: string}> {
+
+  constructor(props: any) {
     super(props);
 
     this.state = {
@@ -26,19 +23,19 @@ export default class FormEdit extends Component {
 
   componentDidMount = () => window.addEventListener('keyup', this.handleKeyUp);
 
-  handleKeyUp = ev => {
+  handleKeyUp = (ev: any) => {
     // Handle ESC Key interaction
     if (ev.code === 'Escape') {
       this.props.handleCancelEditItem(ev);
     }
   };
 
-  handleItemChange = ev =>
+  handleItemChange = (ev: any) =>
     this.setState({
       itemValue: ev.target.value,
     });
 
-  handleEditAndResetForm = ev => {
+  handleEditAndResetForm = (ev: any) => {
     ev.preventDefault();
     this.props.handleEditItem({
       ...this.props.item,

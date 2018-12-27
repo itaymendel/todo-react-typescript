@@ -12,14 +12,18 @@ import { LOAD_STATE_LOCALSTORAGE } from '../actions/LoadStateLocalStorage';
 import { SAVE_STATE_LOCALSTORAGE } from '../actions/SaveStateLocalStorage';
 import { REORDER_ITEM } from '../actions/ReorderItem';
 
+import Item from '../types/Item';
+import State from '../types/State';
+import { string } from 'prop-types';
+
 const INITIAL_STATE = {
   items: [],
 };
 
-const TodosReducer = (state = INITIAL_STATE, action) => {
+const TodosReducer = (state: State = INITIAL_STATE, action: any): State => {
   switch (action.type) {
     case LOAD_STATE_LOCALSTORAGE: {
-      const localStorageState = JSON.parse(window.localStorage.getItem(LOCALSTORAGE_NAME));
+      const localStorageState = JSON.parse(window.localStorage.getItem(LOCALSTORAGE_NAME) || "");
 
       if (localStorageState) {
         // TODO: Validate local storage state.
@@ -79,7 +83,7 @@ const TodosReducer = (state = INITIAL_STATE, action) => {
     }
 
     case SELECT_EDIT_ITEM: {
-      const item = state.items.find(({ id }) => id === action.payload.id);
+      const item = state.items.filter(({ id }) => id === action.payload.id)[0];
       return { ...state, editingItem: item };
     }
 

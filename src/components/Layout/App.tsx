@@ -6,7 +6,7 @@ import Header from '../Header/Header';
 import Content from '../Content/Content';
 import Footer from '../Footer/Footer';
 
-const App = props => (
+const App = (props: any) => (
   <div className="app__container">
     <Header className="app__header" />
     <Content {...props} className="app__content" />

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { default as AppLayout } from '../components/Layout/App';
@@ -13,30 +12,33 @@ import { SelectEditItem } from '../actions/SelectEditItem';
 import { LoadStateLocalStorage } from '../actions/LoadStateLocalStorage';
 import { SaveStateLocalStorage } from '../actions/SaveStateLocalStorage';
 import { ReorderItem } from '../actions/ReorderItem';
+import Item from '../types/Item';
 
-const appPropTypes = {
-  handleAddItem: PropTypes.func.isRequired,
-  handleCancelEditItem: PropTypes.func.isRequired,
-  handleDeleteItem: PropTypes.func.isRequired,
-  handleEditItem: PropTypes.func.isRequired,
-  handleItemCompletion: PropTypes.func.isRequired,
-  handleSelectEditItem: PropTypes.func.isRequired,
-  handleLoadStateLocalStorage: PropTypes.func.isRequired,
-  handleSaveStateLocalStorage: PropTypes.func.isRequired,
-  handleReorderItem: PropTypes.func.isRequired,
+interface Props {
+  handleAddItem: Function,
+  handleCancelEditItem: Function,
+  handleDeleteItem: Function,
+  handleEditItem: Function,
+  handleItemCompletion: Function,
+  handleSelectEditItem: Function,
+  handleLoadStateLocalStorage: Function,
+  handleSaveStateLocalStorage: Function,
+  handleReorderItem: Function,
+  items: Array<Item>,
+  editingItem: Item
 };
 
-class App extends Component {
+class App extends Component<Props> {
   componentDidMount = () => this.props.handleLoadStateLocalStorage();
   componentDidUpdate = () => this.props.handleSaveStateLocalStorage(this.props.items);
 
-  handleAddItem = itemValue => this.props.handleAddItem(itemValue);
+  handleAddItem = (itemValue: string) => this.props.handleAddItem(itemValue);
   handleCancelEditItem = () => this.props.handleCancelEditItem();
-  handleDeleteItem = selectedItemId => this.props.handleDeleteItem(selectedItemId);
-  handleEditItem = modifiedItem => this.props.handleEditItem(modifiedItem);
-  handleItemCompletion = modifiedItem => this.props.handleItemCompletion(modifiedItem);
-  handleSelectEditItem = id => this.props.handleSelectEditItem(id);
-  handleReorderItem = (initialPosition, newPosition) =>
+  handleDeleteItem = (selectedItemId: string) => this.props.handleDeleteItem(selectedItemId);
+  handleEditItem = (modifiedItem: Item) => this.props.handleEditItem(modifiedItem);
+  handleItemCompletion = (modifiedItem: Item) => this.props.handleItemCompletion(modifiedItem);
+  handleSelectEditItem = (id: string) => this.props.handleSelectEditItem(id);
+  handleReorderItem = (initialPosition: number, newPosition: number) =>
     this.props.handleReorderItem(initialPosition, newPosition);
 
   render() {
@@ -44,7 +46,7 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: any) => ({
   items: state.todos.items,
   editingItem: state.todos.editingItem,
 });
@@ -60,8 +62,6 @@ const mapDispatchToProps = {
   handleLoadStateLocalStorage: LoadStateLocalStorage,
   handleReorderItem: ReorderItem,
 };
-
-App.propTypes = appPropTypes;
 
 export default connect(
   mapStateToProps,
